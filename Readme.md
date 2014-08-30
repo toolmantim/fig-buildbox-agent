@@ -65,6 +65,6 @@ See [fig-ci-test-app](https://github.com/toolmantim/fig-ci-test-app) for an exam
 
 ### Build pipeline
 
-The agent starts with the metadata `fig=true`, so you can target fig-enabled agents in your Build Pipeline Settings.
+The agent starts with the metadata `fig=true` so you can easily target fig-enabled agents in your build pipeline.
 
-Your build script execute inside your `app` fig container, so they're entered just as normal.
+Set your build steps as normal. They'll be executed relative to the `app` fig container root.
