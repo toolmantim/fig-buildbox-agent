@@ -1,12 +1,18 @@
 # fig-buildbox-agent
 
-A [Docker](http://docker.io/) and [Fig](http://fig.sh/) enabled version of the [Buildbox agent](https://github.com/buildbox/buildbox-agent), which allows you to run each CI job in separate Docker containers. Just add a `fig.yml` to each project ([for example](https://github.com/toolmantim/fig-ci-test-app)) and define it’s Docker configuration.
+A [Docker](http://docker.io/) and [Fig](http://fig.sh/) enabled version of the [Buildbox agent](https://github.com/buildbox/buildbox-agent), which allows you to run each CI job in separate Docker containers. Just add a `fig.yml` to each project ([example](https://github.com/toolmantim/fig-ci-test-app)).
 
-Each project can define as many containers as it needs (e.g. Ruby, Postgres, Redis, etc) using [Fig's concise syntax](http://www.fig.sh/), and they're created and linked together before the tests are run, and then destroyed afterwards.
+Each project can define as many containers as it needs (e.g. Ruby, Postgres, Redis, etc) using the standard [Fig yml config syntax](http://www.fig.sh/yml.html). Before a build step is run, Fig builds and links all the required containers, and then destroys them afterwards. And the containers are namespaced to the one build job.
 
-And because the agent uses fig itself, you can scale up your agents with a simple `fig scale agent=<number of agents>`.
+*How does it work?* It uses a [customised bootstrap.sh](bootstrap.fig.sh#L59) file which calls fig before and after the build script is run.
+
+## Agent Setup
 
 ```bash
+git clone https://github.com/toolmantim/fig-buildbox-agent.git
+cd fig-buildbox-agent
+cp fig.sample.yml fig.yml
+sed -i '' "s/abc123/<yout agent token>/g" fig.yml
 $ fig scale agent=2
 Starting figbuildboxagent_agent_1...
 Starting figbuildboxagent_agent_2...
@@ -29,37 +35,17 @@ Aborting.
 $ fig stop
 Stopping figbuildboxagent_agent_2...
 Stopping figbuildboxagent_agent_1...
-
-```
-
-*How does it work?* It uses a [customised bootstrap.sh](bootstrap.fig.sh#L59) file which calls fig before and after the build script is run.
-
-## Agent Setup
-
-```bash
-git clone https://github.com/toolmantim/fig-buildbox-agent.git
-cd fig-buildbox-agent
-cp fig.sample.yml fig.yml
-sed -i '' "s/abc123/<yout agent token>/g" fig.yml
-fig up -d
-fig logs
-```
-
-By default fig will start 1 agent instance. You can scale up using `fig scale`, for example:
-
-```
-fig scale agent=4
 ```
 
 ### Running the agent yourself
 
-You don't need to run the agent itself using fig (and hence, inside of Docker). You can run it with upstart, just as you would normally, you'll just need fig installed, Docker installed and running, and to specify `bootstrap.fig.sh` as the build boostrap file.
+You don't need to run the agent itself using fig. You can run it as [as you'd normally do](https://github.com/buildbox/agent), but you'll need to make sure fig is installed, Docker is installed and running, and to copy [bootstrap.fig.sh](bootstrap.fig.sh) and tell the agent to use that instead of the standard one.
 
 ## Project Setup
 
 ### fig.yml
 
-Every app must have a `fig.yml` which defines an `app` container. The app container is where your build scripts are executed inside of.
+Every app must have a `fig.yml` which defines an `app` container. The app container is assumed to exist, and is where the bootstrap will attempt to run your build scripts.
 
 See [fig-ci-test-app](https://github.com/toolmantim/fig-ci-test-app) for an example and [http://fig.sh/](http://fig.sh/) for more details.
 
