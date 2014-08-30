@@ -56,8 +56,8 @@ then
   echo "ERROR: No script path has been set for this project. Please go to \"Project Settings\" and add the path to your build script"
   exit 1
 else
-  # Setting the fig project name to job ID will scope all containers will mean
-  # we get per-job containers
+  # Setting the fig project name to job ID will give us a per-job container
+  # namespace
   fig -p $BUILDBOX_JOB_ID build
   fig -p $BUILDBOX_JOB_ID run app "./$BUILDBOX_SCRIPT_PATH"
   EXIT_STATUS=$?
