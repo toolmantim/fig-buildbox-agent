@@ -32,7 +32,7 @@ Stopping figbuildboxagent_agent_1...
 
 ```
 
-*How does it work?* It uses a [customised bootstrap.sh](bootstrap.fig.sh#59) file which calls fig before and after the build script is run.
+*How does it work?* It uses a [customised bootstrap.sh](bootstrap.fig.sh#L59) file which calls fig before and after the build script is run.
 
 ## Agent Setup
 
