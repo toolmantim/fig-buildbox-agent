@@ -1,10 +1,10 @@
 # fig-buildbox-agent
 
-A [Docker](http://docker.io/) and [Fig](http://fig.sh/) enabled version of the [Buildbox agent](https://github.com/buildbox/buildbox-agent), which allows you to run each CI job in separate Docker containers. Just add a `fig.yml` to each project and define it’s Docker configuration.
+A [Docker](http://docker.io/) and [Fig](http://fig.sh/) enabled version of the [Buildbox agent](https://github.com/buildbox/buildbox-agent), which allows you to run each CI job in separate Docker containers. Just add a `fig.yml` to each project ([example](https://github.com/toolmantim/fig-ci-test-app/blob/master/fig.yml) and define it’s Docker configuration.
 
 Each app can spin up as many containers as it needs (e.g. Ruby, Postgres, Redis, etc) using whichever versions they need. And each job’s daemons never collide.
 
-And because the agent uses fig itself, you can scale up your agents by simply using `fig scale agent=<number of agents>`.
+And because the agent uses fig itself, you can scale up your agents with a simple `fig scale agent=<number of agents>`.
 
 *How does it work?* It uses a customised [bootstrap.sh](bootstrap.sh#59) file which calls fig before and after the build script is run.
 
