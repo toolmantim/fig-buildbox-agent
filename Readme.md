@@ -14,7 +14,7 @@ And because the agent uses fig itself, you can scale up your agents by simply us
 git clone https://github.com/toolmantim/fig-buildbox-agent.git
 cd fig-buildbox-agent
 cp fig.sample.yml fig.yml
-sed -i '' “s/abc123/<yout agent token>/g” fig.yml
+sed -i '' "s/abc123/<yout agent token>/g" fig.yml
 fig up -d
 fig logs
 ```
