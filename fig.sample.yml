@@ -1,0 +1,7 @@
+agent:
+  build: .
+  command: "buildbox agent start --meta-data fig"
+  environment:
+    BUILDBOX_AGENT_TOKEN: "abc123"
+  volumes:
+    - "/var/run/docker.sock:/var/run/docker.sock"
