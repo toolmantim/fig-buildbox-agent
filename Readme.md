@@ -51,9 +51,9 @@ By default fig will start 1 agent instance. You can scale up using `fig scale`, 
 fig scale agent=4
 ```
 
-### Running the agent without fig
+### Running the agent yourself
 
-You don't need to run the agent itself using fig. ALl you need is fig installed, Docker installed and running, and to use the `bootstrap.fig.sh` for the fig agents.
+You don't need to run the agent itself using fig (and hence, inside of Docker). You can run it with upstart, just as you would normally, you'll just need fig installed, Docker installed and running, and to specify `bootstrap.fig.sh` as the build boostrap file.
 
 ## Project Setup
 
