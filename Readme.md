@@ -6,6 +6,32 @@ Each project can define as many containers as it needs (e.g. Ruby, Postgres, Red
 
 And because the agent uses fig itself, you can scale up your agents with a simple `fig scale agent=<number of agents>`.
 
+```bash
+$ fig scale agent=2
+Starting figbuildboxagent_agent_1...
+Starting figbuildboxagent_agent_2...
+$ fig logs
+Attaching to figbuildboxagent_agent_2, figbuildboxagent_agent_1
+agent_2 | 2014-08-30 15:34:36 [INFO ] Registering agent (name:  hostname: 8bff65bc5094 meta-data: [fig])
+agent_2 | 2014-08-30 15:34:39 [INFO ] Started agent `8bff65bc5094` (pid: 1 version: 1.0-beta.1)
+agent_1 | 2014-08-30 15:34:36 [INFO ] Registering agent (hostname: 5cd0389ccd95 meta-data: [fig] name: )
+agent_1 | 2014-08-30 15:34:39 [INFO ] Started agent `5cd0389ccd95` (version: 1.0-beta.1 pid: 1)
+agent_1 | 2014-08-30 15:35:43 [INFO ] Starting job d5feb2f5-7ee3-44eb-8999-91b58d0f4a7b 
+agent_2 | 2014-08-30 15:35:44 [INFO ] Starting job 916200f4-57f8-435b-831b-6def4d413b7f 
+agent_2 | 2014-08-30 15:35:45 [INFO ] Starting to run script: /.buildbox/bootstrap.fig.sh 
+agent_2 | 2014-08-30 15:35:45 [INFO ] Process is running with PID: 16 
+agent_1 | 2014-08-30 15:35:45 [INFO ] Starting to run script: /.buildbox/bootstrap.fig.sh 
+agent_1 | 2014-08-30 15:35:45 [INFO ] Process is running with PID: 16 
+agent_1 | 2014-08-30 15:36:14 [INFO ] Finished job d5feb2f5-7ee3-44eb-8999-91b58d0f4a7b 
+agent_2 | 2014-08-30 15:36:14 [INFO ] Finished job 916200f4-57f8-435b-831b-6def4d413b7f 
+^C
+Aborting.
+$ fig stop
+Stopping figbuildboxagent_agent_2...
+Stopping figbuildboxagent_agent_1...
+
+```
+
 *How does it work?* It uses a customised [bootstrap.sh](bootstrap.sh#59) file which calls fig before and after the build script is run.
 
 ## Agent Setup
