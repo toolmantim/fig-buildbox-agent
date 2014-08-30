@@ -2,7 +2,7 @@
 
 A [Docker](http://docker.io/) and [Fig](http://fig.sh/) enabled version of the [Buildbox agent](https://github.com/buildbox/buildbox-agent), which allows you to run each CI job in separate Docker containers. Just add a `fig.yml` to each project ([for example](https://github.com/toolmantim/fig-ci-test-app)) and define it’s Docker configuration.
 
-Each app can spin up as many containers as it needs (e.g. Ruby, Postgres, Redis, etc) using whichever versions they need. And each job’s daemons never collide.
+Each project can define as many containers as it needs (e.g. Ruby, Postgres, Redis, etc) using [Fig's concise syntax](http://www.fig.sh/), and they're created and linked together before the tests are run, and then destroyed afterwards.
 
 And because the agent uses fig itself, you can scale up your agents with a simple `fig scale agent=<number of agents>`.
 
@@ -25,14 +25,20 @@ By default fig will start 1 agent instance. You can scale up using `fig scale`, 
 fig scale agent=4
 ```
 
-## App Setup
+### Running the agent without fig
+
+You don't need to run the agent itself using fig. ALl you need is fig installed, Docker installed and running, and to use the `bootstrap.fig.sh` for the fig agents.
+
+## Project Setup
+
+### fig.yml
 
 Every app must have a `fig.yml` which defines an `app` container. The app container is where your build scripts are executed inside of.
 
 See [fig-ci-test-app](https://github.com/toolmantim/fig-ci-test-app) for an example and [http://fig.sh/](http://fig.sh/) for more details.
 
-## Buildbox Project Settings
+### Build pipeline
 
 The agent starts with the metadata `fig=true`, so you can target fig-enabled agents in your Build Pipeline Settings.
 
-Your build script paths are as normal, they'll simply execute inside your `app` fig container.
+Your build script execute inside your `app` fig container, so they're entered just as normal.
