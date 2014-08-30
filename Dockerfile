@@ -15,5 +15,5 @@ RUN VERSION=1.0-beta.1 bash -c "`curl -sL https://raw.githubusercontent.com/buil
 RUN ln -s /.buildbox/bin/buildbox /usr/local/bin/buildbox
 
 # Use our fig-enabled bootstrap
-ADD bootstrap.sh /.buildbox/bootstrap.sh
-RUN chmod u+x /.buildbox/bootstrap.sh
+ADD bootstrap.fig.sh /.buildbox/bootstrap.fig.sh
+RUN chmod u+x /.buildbox/bootstrap.fig.sh
