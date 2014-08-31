@@ -45,11 +45,10 @@ Stopping figbuildboxagent_agent_1...
 
 ### Outside of Docker
 
-If you don't want to run the build agent itself using Fig and Docker following these steps (or use the [Dockerfile](Dockerfile) and [fig.yml](fig.yml) as examples):
+If you don't want to run the build agent itself using Fig and Docker following these steps (or check out the [Dockerfile](Dockerfile) and [fig.sample.yml](fig.sample.yml)):
 
 * Install Fig and Docker.
-* Ensure Docker is running.
-* Install buildbox-agent as per usual.
+* Install buildbox-agent [as per usual](https://github.com/buildbox/buildbox-agent).
 * Copy [bootstrap.fig.sh](bootstrap.fig.sh) to the buildbox agent directory (usually `/home/buildbox/.buildbox/` if you installed it as the buildbox user).
 * Start your buildbox agents with `--bootstrap-script /home/buildbox/.buildbox/bootstrap.fig.sh`
 
