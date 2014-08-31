@@ -49,7 +49,7 @@ You don't need to run the agent itself using fig. You can run it as [as you'd no
 
 ### Adding the fig.yml
 
-Every app must have a `fig.yml` with an `app` container. The app containeris where the bootstrap will attempt to run your build scripts (using `fig run app <build-script>`).
+Every app must have a `fig.yml` with an `app` container. The app container is where the agent will to run your build scripts inside of (using `fig run app <build-script>`).
 
 See the [fig-ci-test-app](https://github.com/toolmantim/fig-ci-test-app) for an example yml that creates an `app` and a `db` container:
 
