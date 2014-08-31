@@ -12,17 +12,17 @@ The Docker containers are namespaced to each build job (rather than Docker-in-Do
 
 ### With Fig and Docker
 
-This repository defines it's own fig.yml file and can be started inside a Docker using Fig:
+This repository defines it's own fig.yml file and can be started inside a Docker using Fig (this starts 2 agents for a 2 CPU machine):
 
 ```bash
 $ git clone https://github.com/toolmantim/fig-buildbox-agent.git
 $ cd fig-buildbox-agent
 $ cp fig.sample.yml fig.yml
 $ sed -i "s/abc123/<your agent token>/g" fig.yml
-$ fig scale agent=2
+$ fig scale agent=2 && fig logs
+...
 Starting figbuildboxagent_agent_1...
 Starting figbuildboxagent_agent_2...
-$ fig logs
 Attaching to figbuildboxagent_agent_2, figbuildboxagent_agent_1
 agent_2 | 2014-08-30 15:34:36 [INFO ] Registering agent (name:  hostname: 8bff65bc5094 meta-data: [fig])
 agent_2 | 2014-08-30 15:34:39 [INFO ] Started agent `8bff65bc5094` (pid: 1 version: 1.0-beta.1)
