@@ -1,6 +1,6 @@
 # fig-buildbox-agent
 
-A [Docker](http://docker.io/) and [Fig](http://fig.sh/) enabled version of the [Buildbox agent](https://github.com/buildbox/buildbox-agent) which runs each CI job in it's own set of Docker containers. Just add a `fig.yml` to each project (see [the postgres example app](https://github.com/toolmantim/fig-ci-test-app)) and you've have completely isolated testing with a custom environment for every build job.
+A [Docker](http://docker.io/) and [Fig](http://fig.sh/) enabled version of the [Buildbox agent](https://github.com/buildbox/buildbox-agent) which runs each CI job in its own set of Docker containers. Just add a `fig.yml` to each project (see [the postgres example app](https://github.com/toolmantim/fig-ci-test-app)) and you've have completely isolated testing with a custom environment for every build job.
 
 ![2 tests in parallel](https://cloud.githubusercontent.com/assets/153/4101405/5cc2f4ce-30e8-11e4-9ebd-d27898c1fdcf.gif)
 
