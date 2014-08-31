@@ -2,15 +2,17 @@
 
 A [Docker](http://docker.io/) and [Fig](http://fig.sh/) enabled version of the [Buildbox agent](https://github.com/buildbox/buildbox-agent) which runs each CI job in it's own set of Docker containers. Just add a `fig.yml` to each project (see [the postgres example app](https://github.com/toolmantim/fig-ci-test-app)) and you've have completely isolated testing with a custom environment for every build job.
 
+![2 tests in parallel](https://cloud.githubusercontent.com/assets/153/4101405/5cc2f4ce-30e8-11e4-9ebd-d27898c1fdcf.gif)
+
 Each project can define as many containers as it needs (e.g. Ruby, Postgres, Redis, etc) using the standard [fig.yml config syntax](http://www.fig.sh/yml.html). Before a build step is run, Fig builds and links all the required containers, and then destroys them afterwards. All you need to do is make sure your project has a fig.yml file.
 
 The Docker containers are namespaced to each build job (rather than Docker-in-Docker style), so you get the benefit of per-job isolation but with fast build and start times thanks to Docker's cache. And you're free to run as many side-by-side buildbox agents as you wish.
 
 *How does it work?* It uses a [customised bootstrap.sh](bootstrap.fig.sh#L59) file which calls Fig before and after the build script is run.
 
-## Setup
+## Installation
 
-### With Fig and Docker
+### Using Docker (and Fig)
 
 This repository defines it's own fig.yml file and can be started inside a Docker using Fig (this starts 2 agents for a 2 CPU machine):
 
@@ -42,6 +44,10 @@ $ fig stop
 Stopping figbuildboxagent_agent_2...
 Stopping figbuildboxagent_agent_1...
 ```
+
+You can run as many agents as you like:
+
+![20 agents](https://cloud.githubusercontent.com/assets/153/4101420/0948c688-30e9-11e4-8900-b904fa82515e.png)
 
 ### Outside of Docker
 
