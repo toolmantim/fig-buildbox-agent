@@ -8,9 +8,11 @@ The Docker containers are namespaced to each build job (rather than Docker-in-Do
 
 *How does it work?* It uses a [customised bootstrap.sh](bootstrap.fig.sh#L59) file which calls Fig before and after the build script is run.
 
-## Installation
+## Setup
 
-### Using Fig
+### With Fig and Docker
+
+This repository defines it's own fig.yml file and can be started inside a Docker using Fig:
 
 ```bash
 $ git clone https://github.com/toolmantim/fig-buildbox-agent.git
@@ -41,9 +43,15 @@ Stopping figbuildboxagent_agent_2...
 Stopping figbuildboxagent_agent_1...
 ```
 
-### Without Fig
+### Outside of Docker
 
-You don't need to run the agent itself using fig. You can run it as [as you'd normally do](https://github.com/buildbox/agent), but you'll need to make sure fig is installed, Docker is installed and running, and to copy [bootstrap.fig.sh](bootstrap.fig.sh) and tell the agent to use that instead of the standard one.
+If you don't want to run the build agent itself using Fig and Docker:
+
+* Install Fig and Docker.
+* Ensure Docker is running.
+* Install buildbox-agent as per usual.
+* Copy [bootstrap.fig.sh](bootstrap.fig.sh) to the buildbox agent directory (usually `/home/buildbox/.buildbox/` if you installed it as the buildbox user).
+* Start your buildbox agents with `--bootstrap-script /home/buildbox/.buildbox/bootstrap.fig.sh`
 
 ## Setting up your projects
 
