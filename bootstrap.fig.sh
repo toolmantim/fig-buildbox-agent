@@ -87,8 +87,10 @@ then
   buildbox-exit-if-failed $?
 fi
 
-# Stop and kill the containers
+# Kill the containers
 fig -p $BUILDBOX_JOB_ID kill > /dev/null 2>&1
+
+# Delete the images (you can comment this out for speed, but your disk will grow)
 fig -p $BUILDBOX_JOB_ID rm --force > /dev/null 2>&1
 
 exit $EXIT_STATUS
