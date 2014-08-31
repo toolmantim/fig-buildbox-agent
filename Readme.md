@@ -13,10 +13,10 @@ The Docker containers are namespaced to each build job (rather than Docker-in-Do
 ### Using Fig
 
 ```bash
-git clone https://github.com/toolmantim/fig-buildbox-agent.git
-cd fig-buildbox-agent
-cp fig.sample.yml fig.yml
-sed -i '' "s/abc123/<your agent token>/g" fig.yml
+$ git clone https://github.com/toolmantim/fig-buildbox-agent.git
+$ cd fig-buildbox-agent
+$ cp fig.sample.yml fig.yml
+$ sed -i '' "s/abc123/<your agent token>/g" fig.yml
 $ fig scale agent=2
 Starting figbuildboxagent_agent_1...
 Starting figbuildboxagent_agent_2...
