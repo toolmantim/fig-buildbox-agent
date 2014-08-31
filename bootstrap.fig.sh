@@ -55,15 +55,15 @@ if [ "$BUILDBOX_SCRIPT_PATH" == "" ]
 then
   echo "ERROR: No script path has been set for this project. Please go to \"Project Settings\" and add the path to your build script"
   exit 1
-else
-  # Setting the fig project name to job ID will give us a per-job container
-  # namespace
-  fig -p $BUILDBOX_JOB_ID build
-  fig -p $BUILDBOX_JOB_ID run app "./$BUILDBOX_SCRIPT_PATH"
-  EXIT_STATUS=$?
-  fig -p $BUILDBOX_JOB_ID kill > /dev/null 2>&1
-  fig -p $BUILDBOX_JOB_ID rm --force > /dev/null 2>&1
 fi
+
+# Build and start the app's containers
+#
+# Setting the fig project name to the job id gives us a per-job container namespace, so you can
+# run agents side-by-side and they'll never collide
+fig -p $BUILDBOX_JOB_ID build
+fig -p $BUILDBOX_JOB_ID run app "./$BUILDBOX_SCRIPT_PATH"
+EXIT_STATUS=$?
 
 if [ "$BUILDBOX_ARTIFACT_PATHS" != "" ]
 then
@@ -86,5 +86,9 @@ then
   $BUILDBOX_DIR/buildbox-artifact upload "$BUILDBOX_ARTIFACT_PATHS" --url $BUILDBOX_AGENT_API_URL > /dev/null 2>&1
   buildbox-exit-if-failed $?
 fi
+
+# Stop and kill the containers
+fig -p $BUILDBOX_JOB_ID kill > /dev/null 2>&1
+fig -p $BUILDBOX_JOB_ID rm --force > /dev/null 2>&1
 
 exit $EXIT_STATUS
