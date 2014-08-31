@@ -18,7 +18,7 @@ This repository defines it's own fig.yml file and can be started inside a Docker
 $ git clone https://github.com/toolmantim/fig-buildbox-agent.git
 $ cd fig-buildbox-agent
 $ cp fig.sample.yml fig.yml
-$ sed -i '' "s/abc123/<your agent token>/g" fig.yml
+$ sed -i "s/abc123/<your agent token>/g" fig.yml
 $ fig scale agent=2
 Starting figbuildboxagent_agent_1...
 Starting figbuildboxagent_agent_2...
