@@ -45,7 +45,7 @@ Stopping figbuildboxagent_agent_1...
 
 ### Outside of Docker
 
-If you don't want to run the build agent itself using Fig and Docker:
+If you don't want to run the build agent itself using Fig and Docker following these steps (or use the [Dockerfile](Dockerfile) and [fig.yml](fig.yml) as examples):
 
 * Install Fig and Docker.
 * Ensure Docker is running.
