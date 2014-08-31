@@ -1,10 +1,12 @@
 # fig-buildbox-agent
 
-A [Docker](http://docker.io/) and [Fig](http://fig.sh/) enabled version of the [Buildbox agent](https://github.com/buildbox/buildbox-agent), which allows you to run each CI job in separate Docker containers. Just add a `fig.yml` to each project ([example](https://github.com/toolmantim/fig-ci-test-app)).
+A [Docker](http://docker.io/) and [Fig](http://fig.sh/) enabled version of the [Buildbox agent](https://github.com/buildbox/buildbox-agent) which runs each CI job in it's own set of Docker containers. Just add a `fig.yml` to each project (see [the postgres example app](https://github.com/toolmantim/fig-ci-test-app)) and you've have completely isolated testing with a custom environment for every build job.
 
-Each project can define as many containers as it needs (e.g. Ruby, Postgres, Redis, etc) using the standard [Fig yml config syntax](http://www.fig.sh/yml.html). Before a build step is run, Fig builds and links all the required containers, and then destroys them afterwards. And the containers are namespaced to the one build job.
+Each project can define as many containers as it needs (e.g. Ruby, Postgres, Redis, etc) using the standard [fig.yml config syntax](http://www.fig.sh/yml.html). Before a build step is run, Fig builds and links all the required containers, and then destroys them afterwards. All you need to do is make sure your project has a fig.yml file.
 
-*How does it work?* It uses a [customised bootstrap.sh](bootstrap.fig.sh#L59) file which calls fig before and after the build script is run.
+The Docker containers are namespaced to each build job (rather than Docker-in-Docker style), so you get the benefit of per-job isolation but with fast build and start times thanks to Docker's cache. And you're free to run as many side-by-side buildbox agents as you wish.
+
+*How does it work?* It uses a [customised bootstrap.sh](bootstrap.fig.sh#L59) file which calls Fig before and after the build script is run.
 
 ## Agent Setup
 
@@ -12,7 +14,7 @@ Each project can define as many containers as it needs (e.g. Ruby, Postgres, Red
 git clone https://github.com/toolmantim/fig-buildbox-agent.git
 cd fig-buildbox-agent
 cp fig.sample.yml fig.yml
-sed -i '' "s/abc123/<yout agent token>/g" fig.yml
+sed -i '' "s/abc123/<your agent token>/g" fig.yml
 $ fig scale agent=2
 Starting figbuildboxagent_agent_1...
 Starting figbuildboxagent_agent_2...
@@ -43,14 +45,26 @@ You don't need to run the agent itself using fig. You can run it as [as you'd no
 
 ## Project Setup
 
-### fig.yml
+### Adding the fig.yml
 
-Every app must have a `fig.yml` which defines an `app` container. The app container is assumed to exist, and is where the bootstrap will attempt to run your build scripts.
+Every app must have a `fig.yml` with an `app` container. The app containeris where the bootstrap will attempt to run your build scripts (using `fig run app <build-script>`).
 
-See [fig-ci-test-app](https://github.com/toolmantim/fig-ci-test-app) for an example and [http://fig.sh/](http://fig.sh/) for more details.
+See the [fig-ci-test-app](https://github.com/toolmantim/fig-ci-test-app) for an example yml that creates an `app` and a `db` container:
 
-### Build pipeline
+```yml
+app:
+  build: .
+  links:
+    - db
+db:
+  image: postgres
+```
 
-The agent starts with the metadata `fig=true` so you can easily target fig-enabled agents in your build pipeline.
+You can also see the [Fig documentation](http://fig.sh/) for all the options available in your fig.yml, as well as example configurations for various languages and frameworks.
 
-Set your build steps as normal. They'll be executed relative to the `app` fig container root.
+### Configuring your Buildbox project's build pipeline
+
+* Set your build steps as normal. They'll be executed relative to your `app` container's working directory.
+* The agent starts with the metadata `fig=true` so you can easily target fig-enabled agents in your build pipeline.
+
+![image](https://cloud.githubusercontent.com/assets/153/4101107/b8f9bee2-30d1-11e4-97f6-4468622c080d.png)
