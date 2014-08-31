@@ -81,5 +81,3 @@ You can also see the [Fig documentation](http://fig.sh/) for all the options ava
 
 * Set your build steps as normal. They'll be executed relative to your `app` container's working directory.
 * The agent starts with the metadata `fig=true` so you can easily target fig-enabled agents in your build pipeline.
-
-![image](https://cloud.githubusercontent.com/assets/153/4101107/b8f9bee2-30d1-11e4-97f6-4468622c080d.png)
