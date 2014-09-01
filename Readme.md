@@ -14,7 +14,7 @@ The Docker containers are namespaced to each build job (rather than Docker-in-Do
 
 ## Installation
 
-### Straight Docker
+### Using the Docker image
 
 The [fig-buildbox-agent Docker image](https://registry.hub.docker.com/_/fig-buildbox-agent/) doesn't exist yet, but will soon.
 
@@ -28,16 +28,14 @@ docker run -e BUILDBOX_AGENT_TOKEN=abc123 -v /var/run/docker.sock:/var/run/docke
 docker logs -f bb-agent-1
 ```
 
-### Docker using Fig
+### From source, using Fig
 
 This repository defines it's own fig.yml file and can be started inside a Docker using Fig (this starts 2 agents for a 2 CPU machine):
 
 ```bash
 $ git clone https://github.com/toolmantim/fig-buildbox-agent.git
 $ cd fig-buildbox-agent
-$ cp fig.sample.yml fig.yml
-$ sed -i "s/abc123/<your agent token>/g" fig.yml
-$ fig scale agent=2 && fig logs
+$ env BUILDBOX_AGENT_TOKEN=abc123 fig scale agent=2 && fig logs
 ...
 Starting figbuildboxagent_agent_1...
 Starting figbuildboxagent_agent_2...
@@ -61,9 +59,11 @@ Stopping figbuildboxagent_agent_2...
 Stopping figbuildboxagent_agent_1...
 ```
 
-### Outside of Docker
+### From source, outside of Docker
 
-If you don't want to run the build agent itself using Fig and Docker following these steps (or check out the [Dockerfile](Dockerfile) and [fig.sample.yml](fig.sample.yml)):
+You don't have to run the build agent itself inside of Docker, but it does need Fig and Docker to be installed and available.
+
+Follow these steps to set it up yourself:
 
 * Install Fig and Docker.
 * Install buildbox-agent [as per usual](https://github.com/buildbox/buildbox-agent).

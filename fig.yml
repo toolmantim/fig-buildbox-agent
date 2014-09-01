@@ -2,6 +2,6 @@ agent:
   build: .
   command: buildbox agent start --meta-data fig --bootstrap-script /.buildbox/bootstrap.fig.sh
   environment:
-    BUILDBOX_AGENT_TOKEN: "abc123"
+    BUILDBOX_AGENT_TOKEN:
   volumes:
     - "/var/run/docker.sock:/var/run/docker.sock"
