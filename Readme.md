@@ -16,22 +16,16 @@ The Docker containers are namespaced to each build job (rather than Docker-in-Do
 
 ### Straight Docker
 
-The [fig-buildbox-agent Docker image](https://registry.hub.docker.com/_/fig-buildbox-agent/) doesn't exist yet, but will soon:
+The [fig-buildbox-agent Docker image](https://registry.hub.docker.com/_/fig-buildbox-agent/) doesn't exist yet, but will soon.
+
+Just run the `fig-buildbox-agent` image, which Docker will automatically pull from the Docker Registry, and start it up passing in your Buildbox account's agent token, and passing your local Docker socket through to the image (so it can call Docker from within the container). Giving it a name allows you to inspect it, tail the logs, etc.
 
 ```bash
 # Start the agent
-docker run -e BUILDBOX_AGENT_TOKEN=abc123 -d /var/run/docker.sock:/var/run/docker.sock -n bb-agent-1 fig-buildbox-agent
+docker run -e BUILDBOX_AGENT_TOKEN=abc123 -v /var/run/docker.sock:/var/run/docker.sock -n bb-agent-1 fig-buildbox-agent
 
 # Tail the logs
 docker logs -f bb-agent-1
-```
-
-Or if you want to start 5 agents:
-
-```bash
-for i in {1..5}; do
-  docker run -e BUILDBOX_AGENT_TOKEN=abc123 -d /var/run/docker.sock:/var/run/docker.sock -n "bb-agent-$i" fig-buildbox-agent
-done
 ```
 
 ### Docker using Fig
