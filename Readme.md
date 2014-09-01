@@ -6,13 +6,35 @@ A [Docker](http://docker.io/) and [Fig](http://fig.sh/) enabled version of the [
 
 Each project can define as many containers as it needs (e.g. Ruby, Postgres, Redis, etc) using the standard [fig.yml config syntax](http://www.fig.sh/yml.html). Before a build step is run, Fig builds and links all the required containers, and then destroys them afterwards. All you need to do is make sure your project has a fig.yml file.
 
-The Docker containers are namespaced to each build job (rather than Docker-in-Docker style), so you get the benefit of per-job isolation but with fast build and start times thanks to Docker's cache. And you're free to run as many side-by-side buildbox agents as you wish.
+The Docker containers are namespaced to each build job (rather than Docker-in-Docker style), so you get the benefit of per-job isolation but with fast build and start times thanks to Docker's cache. And you're free to run as many side-by-side buildbox agents as you wish. This is 20 agents on a 20 CPU Digital Ocean droplet:
+
+![20 agents](https://cloud.githubusercontent.com/assets/153/4101420/0948c688-30e9-11e4-8900-b904fa82515e.png)
 
 *How does it work?* It uses a [customised bootstrap.sh](bootstrap.fig.sh#L59) file which calls Fig before and after the build script is run.
 
 ## Installation
 
-### Using Docker (and Fig)
+### Straight Docker
+
+The [fig-buildbox-agent Docker image](https://registry.hub.docker.com/_/fig-buildbox-agent/) doesn't exist yet, but will soon:
+
+```bash
+# Start the agent
+docker run -e BUILDBOX_AGENT_TOKEN=abc123 -d /var/run/docker.sock:/var/run/docker.sock -n bb-agent-1 fig-buildbox-agent
+
+# Tail the logs
+docker logs -f bb-agent-1
+```
+
+Or if you want to start 5 agents:
+
+```bash
+for i in {1..5}; do
+  docker run -e BUILDBOX_AGENT_TOKEN=abc123 -d /var/run/docker.sock:/var/run/docker.sock -n "bb-agent-$i" fig-buildbox-agent
+done
+```
+
+### Docker using Fig
 
 This repository defines it's own fig.yml file and can be started inside a Docker using Fig (this starts 2 agents for a 2 CPU machine):
 
@@ -44,10 +66,6 @@ $ fig stop
 Stopping figbuildboxagent_agent_2...
 Stopping figbuildboxagent_agent_1...
 ```
-
-You can run as many agents as you like:
-
-![20 agents](https://cloud.githubusercontent.com/assets/153/4101420/0948c688-30e9-11e4-8900-b904fa82515e.png)
 
 ### Outside of Docker
 
