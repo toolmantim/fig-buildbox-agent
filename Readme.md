@@ -22,7 +22,7 @@ Just run the `buildbox/agent` image, which Docker will automatically pull from t
 
 ```bash
 # Start the agent
-docker run -e BUILDBOX_AGENT_TOKEN=abc123 -v /var/run/docker.sock:/var/run/docker.sock -n bb-agent-1 buildbox/agent
+docker run -e BUILDBOX_AGENT_TOKEN=abc123 -v /var/run/docker.sock:/var/run/docker.sock --name bb-agent-1 buildbox/agent
 
 # Tail the logs
 docker logs -f bb-agent-1
