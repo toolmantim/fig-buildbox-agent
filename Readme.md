@@ -28,6 +28,16 @@ docker run -e BUILDBOX_AGENT_TOKEN=abc123 -v /var/run/docker.sock:/var/run/docke
 docker logs -f bb-agent-1
 ```
 
+You can start multiple build agents by adding the `-d` argument, which will cause docker to boot the agent in the background.
+
+```bash
+# Start multiple agents
+export BUILDBOX_AGENT_TOKEN=abc123
+docker run -d -e $BUILDBOX_AGENT_TOKEN -v /var/run/docker.sock:/var/run/docker.sock buildbox/agent
+docker run -d -e $BUILDBOX_AGENT_TOKEN -v /var/run/docker.sock:/var/run/docker.sock buildbox/agent
+docker run -d -e $BUILDBOX_AGENT_TOKEN -v /var/run/docker.sock:/var/run/docker.sock buildbox/agent
+```
+
 ### From source, using Fig
 
 This repository defines it's own fig.yml file and can be started inside a Docker using Fig (this starts 2 agents for a 2 CPU machine):
